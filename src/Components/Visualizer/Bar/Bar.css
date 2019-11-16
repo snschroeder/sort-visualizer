@@ -1,0 +1,11 @@
+li {
+  list-style-type: none;
+  background: grey;
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 1px;
+}
+
+.selected {
+  background: red;
+}

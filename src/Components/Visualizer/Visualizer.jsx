@@ -5,19 +5,12 @@ import './Visualizer.css'
 
 export default function Visualizer(props) {
 
-  // const [numArr, setNumArr] = useState([]);
-
   const [sortedArr, setSortedArr] = useState([]);
 
   const [randomizedArr, setRandomizedArr] = useState([]);
 
-  const [pieceOne, setPieceOne] = useState(0);
-  const [pieceTwo, setPieceTwo] = useState(0);
-
-  const [merging, setMerging] = useState(false);
-
-  const [cursor, setCursor] = useState(0);
-  // const [anchor, setAnchor] = useState(0);
+  const [pieceOne, setPieceOne] = useState(-1);
+  const [pieceTwo, setPieceTwo] = useState(-1);
 
   const [sortOrder, setSortOrder] = useState([]);
   const { sortType } = props;
@@ -27,76 +20,59 @@ export default function Visualizer(props) {
   const genRandomizedArr = (numVals, maxVal) => {
     let random = [];
     for (let i = 0; i <= numVals; i++) {
-      random.push(Math.floor(Math.random() * maxVal));
+      random.push(Math.floor(Math.random() * maxVal) + 1);
     }
     setRandomizedArr(random);
     setSortedArr(random);
+    sortData();
   }
 
   const sortData = () => {
-    //let sorted = [];
+    let sorted = [];
     if (sortType === 'quick-sort') {
-      setSortedArr(quickSort([...randomizedArr]));
+      sorted = quickSort([...randomizedArr]);
 
     } else if (sortType === 'merge-sort') {
-      setSortedArr(mergeSort([...randomizedArr]));
-      setMerging(false);
+      sorted = mergeSort([...randomizedArr]);
       // } else if (sortType === 'heap-sort') {
       //   sorted = sorts.heapSort(numArr);
     }
-    //setNumArr(sorted)
+    setSortedArr(sorted);
   }
 
   const quickSort = (arr, start = 0, end = arr.length) => {
-    setTimeout(() => {
-      setSortedArr(arr);
-
       if (start >= end) { return arr; }
       let pivot = partition(arr, start, end);
       quickSort(arr, start, pivot);
       quickSort(arr, pivot + 1, end);
       return arr;
-    }, 3)
   };
 
   const partition = (arr, start, end) => {
-
     let pivot = arr[end - 1];
     let i = start;
-
-    let j;
-    for (j = start; j < end - 1; j++) {
-      // setCursor(j);
+    for (let j = start; j < end - 1; j++) {
       if (arr[j] <= pivot) {
         swap(arr, j, i);
         i++;
       }
-      setTimeout(() => {
-        j++;
-      }, 1)
     }
     swap(arr, i, end - 1);
     return i;
-
   };
 
   const swap = (arr, i, j) => {
-    setTimeout(() => {
-      let temp = arr[i];
-      arr[i] = arr[j];
-      arr[j] = temp;
-      setPieceOne(i);
-      setPieceTwo(j);
-      sort.push(i);
-      sort.push(j);
-      setSortOrder([...sort]);
-    }, 1);
+    let temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+    sort.push(i);
+    sort.push(j);
+    setSortOrder([...sort]);
   };
 
   const mergeSort = (arr) => {
     setTimeout(() => {
       setSortedArr(arr);
-      setMerging(true);
       if (arr.length <= 1) { return arr; }
 
       const mid = Math.floor(arr.length / 2)
@@ -143,60 +119,41 @@ export default function Visualizer(props) {
   };
 
   const animate = () => {
+    sortData();
     let sort = [...sortOrder]
     let clone = [...randomizedArr]
-    sort.reverse();
 
-    let i = 0;
-    console.log(sort.length)
-
-    for (let i = 0; i < sort.length; i++) {
+    for (let i = 0; i < sort.length; i += 2) {
       setTimeout(() => {
-        let first = sort.pop();
-        let second = sort.pop();
+        let first = sort[i];
+        let second = sort[i + 1];
+
         setPieceOne(first);
         setPieceTwo(second);
-        console.log(pieceOne);
 
-        let temp = clone[pieceOne];
-        clone[pieceOne] = clone[pieceTwo];
-        clone[pieceTwo] = temp;
-        console.log(clone);
+        let temp = clone[first];
+        clone[first] = clone[second];
+        clone[second] = temp;
+
         setRandomizedArr([...clone]);
-      }, 100 + (100 * i))
-    }
-    // while (i < sort.length) {
-    //   console.log('in the while');
-    //   setInterval(() => {
-    //     let first = sort.pop();
-    //     let second = sort.pop();
-    //     setPieceOne(first);
-    //     setPieceTwo(second);
-    //     console.log(pieceOne);
 
-    //     let temp = clone[pieceOne];
-    //     clone[pieceOne] = clone[pieceTwo];
-    //     clone[pieceTwo] = temp;
-    //     console.log(clone);
-    //     setRandomizedArr([...clone]);
-    //     i++;
-    //   }, 10)
-    // }
+      }, 10 + (10 * i))
+    }
   }
 
   // useEffect(() => {
-  //   animate();
+  //   setSortedArr(sortData());
   // });
 
 
   return (
     <section className="viz-display">
-      <button type="button" className="randomize-button" onClick={() => genRandomizedArr(300, 250)}>Generate new array</button>
-      <button type="button" className="testing" onClick={() => sortData()}>Sort!</button>
+      <button type="button" className="randomize-button" onClick={() => genRandomizedArr(220, 300)}>Generate new array</button>
+      {/* <button type="button" className="testing" onClick={() => sortData()}>Sort!</button> */}
       <button type="button" className="animate" onClick={() => animate()}>Animate!</button>
       <ul className="display-nums">
-        {sortedArr === undefined
-          ? randomizedArr.map((val, index) => (
+        { // sortedArr === undefined
+          randomizedArr.map((val, index) => (
             <Bar
               key={index}
               length={val}
@@ -204,13 +161,14 @@ export default function Visualizer(props) {
             // cursor={index === cursor ? 'cursor' : ''}
             />
           ))
-          : sortedArr.map((val, index) => (
-            <Bar
-              key={index}
-              length={val}
-              selected={index === pieceOne || index === pieceTwo ? 'selected' : 'not-selected'}
-            />
-          ))}
+          // : sortedArr.map((val, index) => (
+          //   <Bar
+          //     key={index}
+          //     length={val}
+          //     selected={index === pieceOne || index === pieceTwo ? 'selected' : 'not-selected'}
+          //   />
+          // ))
+        }
       </ul>
 
     </section>

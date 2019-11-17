@@ -7,5 +7,9 @@ li {
 }
 
 .selected {
-  background: red;
+  background: greenyellow;
+}
+
+.cursor {
+  background: blue;
 }

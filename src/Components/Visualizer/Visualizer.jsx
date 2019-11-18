@@ -93,24 +93,6 @@ export default function Visualizer(props) {
     }
   })
 
-
-  // let height = window.innerHeight;
-  // let width = window.innerWidth;
-  // let hSize = 3;
-  // let wSize = 3.5
-
-  // if (height <= 900) {
-  //   hSize = 1;
-  // }
-
-  // if (width <= 500) {
-  //   wSize = .6;
-  // }
-
-  // if (width > 500 && width <= 1200) {
-  //   wSize = 1.5;
-  // }
-
   const genRandomizedArr = (numVals, maxVal) => {
     let random = [];
     sort.length = 0;

@@ -4,7 +4,7 @@ import './Bar.css'
 export default function Bar(props) {
   const { length, selected, cursor } = props;
   const style = {
-    height: '18px',
+    height: '5px',
     width: `${length * 3.5}px`
   }
 

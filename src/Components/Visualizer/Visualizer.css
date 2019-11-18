@@ -1,3 +1,23 @@
 .viz-display {
   text-align: center;
 }
+
+button {
+  background: black;
+  color: greenyellow;
+  border: solid 1px greenyellow;
+  padding: 5px;
+  margin-right: 5px;
+  font-size: 14px;
+  border-radius: 2px;
+}
+
+button:hover,
+button:focus {
+  font-weight: bold;
+  font-size: 16px;
+  border: solid 2px greenyellow;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+}

@@ -33,8 +33,6 @@ export default function Visualizer(props) {
     let sorted = [];
     if (sortType === 'quick-sort') {
       sorted = quickSort([...randomizedArr]);
-    // } else if (sortType === 'merge-sort') {
-    //   sorted = mergeSort([...randomizedArr]);
     } else if (sortType === 'bubble-sort') {
       sorted = bubbleSort([...randomizedArr]);
     } else if (sortType === 'comb-sort') {
@@ -43,8 +41,6 @@ export default function Visualizer(props) {
       sorted = selectionSort([...randomizedArr]);
     } else if (sortType === 'insertion-sort') {
       sorted = insertionSort([...randomizedArr]);
-    } else if (sortType === 'heap-sort') {
-      sorted = heapSort([...randomizedArr]);
     }
     setSortedArr(sorted);
   }
@@ -144,44 +140,6 @@ export default function Visualizer(props) {
     return arr;
   }
 
-  const heapify = (arr, len, i) => {
-    let largest = i;
-    let left = i * 2 + 1;
-    let right = left + 1;
-
-    if (left < len && arr[left] > arr[largest]) {
-      largest = left;
-    }
-    if (right < len && arr[right] > arr[largest]) {
-      largest = right;
-    }
-    if (largest !== i) {
-      [arr[i], arr[largest]] = [arr[largest], arr[i]];
-      sort.push(i);
-      sort.push(largest);
-      heapify(arr, len, largest);
-    }
-    return arr;
-  };
-
-  const heapSort = (arr) => {
-    let len = arr.length;
-    let i = Math.floor(len / 2 - 1);
-    let j = len - 1;
-
-    while (i >= 0) {
-      heapify(arr, len, i);
-      i--;
-    }
-    while (j >= 0) {
-      [arr[0], arr[j]] = [arr[j], arr[0]];
-      heapify(arr, j, 0);
-      j--;
-    }
-    return arr;
-  }
-
-
   const animate = () => {
     console.log(sort);
     sortData();
@@ -206,7 +164,7 @@ export default function Visualizer(props) {
 
   return (
     <section className="viz-display">
-      <button type="button" className="randomize-button" onClick={() => genRandomizedArr(20, 500)}>Generate new array</button>
+      <button type="button" className="randomize-button" onClick={() => genRandomizedArr(150, 500)}>Generate new array</button>
       <button type="button" className="animate" onClick={() => animate()}>Animate!</button>
       <ul className="display-nums">
         {randomizedArr.map((val, index) => (

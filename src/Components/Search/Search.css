@@ -1,3 +1,12 @@
 .sort-form {
   text-align: center;
 }
+
+select {
+  background: black;
+  color: greenyellow;
+  border: solid 1px greenyellow;
+  padding: 5px;
+  margin-bottom: 5px;
+  border-radius: 2px;
+}

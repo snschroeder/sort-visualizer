@@ -149,3 +149,40 @@ export default sorts;
   //   console.log(sort);
   //   return arr;
   // };
+
+    // const heapify = (arr, len, i) => {
+  //   let largest = i;
+  //   let left = i * 2 + 1;
+  //   let right = left + 1;
+
+  //   if (left < len && arr[left] > arr[largest]) {
+  //     largest = left;
+  //   }
+  //   if (right < len && arr[right] > arr[largest]) {
+  //     largest = right;
+  //   }
+  //   if (largest !== i) {
+  //     [arr[i], arr[largest]] = [arr[largest], arr[i]];
+  //     sort.push(i);
+  //     sort.push(largest);
+  //     heapify(arr, len, largest);
+  //   }
+  //   return arr;
+  // };
+
+  // const heapSort = (arr) => {
+  //   let len = arr.length;
+  //   let i = Math.floor(len / 2 - 1);
+  //   let j = len - 1;
+
+  //   while (i >= 0) {
+  //     heapify(arr, len, i);
+  //     i--;
+  //   }
+  //   while (j >= 0) {
+  //     [arr[0], arr[j]] = [arr[j], arr[0]];
+  //     heapify(arr, j, 0);
+  //     j--;
+  //   }
+  //   return arr;
+  // }

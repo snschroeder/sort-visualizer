@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
 import Bar from './Bar/Bar';
 import './Visualizer.css'
+
+function debounce(fn, ms) {
+  let timer
+  return _ => {
+    clearTimeout(timer)
+    timer = setTimeout(_ => {
+      timer = null
+      fn.apply(this, arguments)
+    }, ms)
+  };
+}
 
 export default function Visualizer(props) {
 
@@ -11,9 +21,95 @@ export default function Visualizer(props) {
   const [pieceOne, setPieceOne] = useState(-1);
   const [pieceTwo, setPieceTwo] = useState(-1);
 
+  const [sortOrder, setSortOrder] = useState([]);
+
+  const [dimensions, setDimensions] = useState({
+    hSize: 3,
+    wSize: 1
+  })
+
   const { sortType } = props;
 
-  const sort = [];
+  let sort = [];
+
+  const determineScaling = (height, width) => {
+    let h = dimensions.hSize;
+    let w = dimensions.wSize;
+    if (height <= 900) {
+      h = 1;
+    }
+
+    if (width <= 500) {
+      w = .6;
+    }
+
+    if (width > 500 && width <= 1000) {
+      w = 1;
+    }
+
+    if (width > 1000 && width <= 1800) {
+      w = 2.2;
+    }
+
+    if (width > 1800) {
+      w = 3.5;
+    }
+    return {h, w}
+  }
+
+  useEffect(() => {
+    let height = window.innerHeight;
+    let width = window.innerWidth;
+    const dims = determineScaling(height, width);
+
+    const h = dims.h;
+    const w = dims.w;
+    setDimensions({hSize: h, wSize: w});
+    console.log(dimensions);
+  }, [])
+
+  useEffect(() => {
+
+    const debouncedHandleResize = debounce(function handleResize() {
+      let height = window.innerHeight;
+      let width = window.innerWidth;
+
+      const dims = determineScaling(height, width);
+
+      const h = dims.h;
+      const w = dims.w;
+
+      setDimensions({
+        hSize: h,
+        wSize: w,
+      })
+      console.log(dimensions);
+    }, 1000)
+
+    window.addEventListener('resize', debouncedHandleResize)
+
+    return _ => {
+      window.removeEventListener('resize', debouncedHandleResize)
+    }
+  })
+
+
+  // let height = window.innerHeight;
+  // let width = window.innerWidth;
+  // let hSize = 3;
+  // let wSize = 3.5
+
+  // if (height <= 900) {
+  //   hSize = 1;
+  // }
+
+  // if (width <= 500) {
+  //   wSize = .6;
+  // }
+
+  // if (width > 500 && width <= 1200) {
+  //   wSize = 1.5;
+  // }
 
   const genRandomizedArr = (numVals, maxVal) => {
     let random = [];
@@ -27,6 +123,7 @@ export default function Visualizer(props) {
 
   const sortData = () => {
     let sorted = [];
+    setSortOrder([]);
     if (sortType === 'quick-sort') {
       sorted = quickSort([...randomizedArr]);
     } else if (sortType === 'bubble-sort') {
@@ -129,6 +226,7 @@ export default function Visualizer(props) {
         arr[j + 1] = arr[j];
         sort.push(j);
         sort.push(j + 1);
+        setSortOrder([...sort]);
       }
       arr[j + 1] = elem;
     }
@@ -137,11 +235,12 @@ export default function Visualizer(props) {
 
   const animate = () => {
     sortData();
+    let pattern = sort.length === 0 ? [...sortOrder] : [...sort];
     let clone = [...randomizedArr];
-    for (let i = 0; i < sort.length; i += 2) {
+    for (let i = 0; i < pattern.length; i += 2) {
       setTimeout(() => {
-        let first = sort[i];
-        let second = sort[i + 1];
+        let first = pattern[i];
+        let second = pattern[i + 1];
 
         setPieceOne(first);
         setPieceTwo(second);
@@ -168,6 +267,8 @@ export default function Visualizer(props) {
             <Bar
               key={index}
               length={val}
+              hSize={dimensions.hSize}
+              wSize={dimensions.wSize}
               selected={index === pieceOne || index === pieceTwo ? 'selected' : 'not-selected'}
             />
           ))

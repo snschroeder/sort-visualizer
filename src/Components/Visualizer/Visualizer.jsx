@@ -1,32 +1,28 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import Bar from './Bar/Bar';
-import sorts from '../../SortAlgs/sorts';
 import './Visualizer.css'
 
 export default function Visualizer(props) {
 
   const [sortedArr, setSortedArr] = useState([]);
-
   const [randomizedArr, setRandomizedArr] = useState([]);
 
   const [pieceOne, setPieceOne] = useState(-1);
   const [pieceTwo, setPieceTwo] = useState(-1);
 
-  const [sortOrder, setSortOrder] = useState([]);
   const { sortType } = props;
 
   const sort = [];
 
   const genRandomizedArr = (numVals, maxVal) => {
     let random = [];
-    setSortOrder([]);
     sort.length = 0;
     for (let i = 0; i <= numVals; i++) {
       random.push(Math.floor(Math.random() * maxVal) + 1);
     }
     setRandomizedArr(random);
     setSortedArr(random);
-    // sortData();
   }
 
   const sortData = () => {
@@ -72,7 +68,6 @@ export default function Visualizer(props) {
     arr[j] = temp;
     sort.push(i);
     sort.push(j);
-    setSortOrder([...sort]);
   };
 
   const combSort = (arr) => {
@@ -141,7 +136,6 @@ export default function Visualizer(props) {
   }
 
   const animate = () => {
-    console.log(sort);
     sortData();
     let clone = [...randomizedArr];
     for (let i = 0; i < sort.length; i += 2) {
@@ -163,19 +157,23 @@ export default function Visualizer(props) {
 
 
   return (
-    <section className="viz-display">
-      <button type="button" className="randomize-button" onClick={() => genRandomizedArr(150, 500)}>Generate new array</button>
-      <button type="button" className="animate" onClick={() => animate()}>Animate!</button>
-      <ul className="display-nums">
-        {randomizedArr.map((val, index) => (
-          <Bar
-            key={index}
-            length={val}
-            selected={index === pieceOne || index === pieceTwo ? 'selected' : 'not-selected'}
-          />
-        ))
-        }
-      </ul>
-    </section>
+    <>
+      <section className="button-group">
+        <button type="button" className="randomize-button" onClick={() => genRandomizedArr(200, 500)}>Generate new array</button>
+        <button type="button" className="animate" onClick={() => animate()}>Animate!</button>
+      </section>
+      <section className="vizDisplay" id="viz">
+        <ul className="display-nums">
+          {randomizedArr.map((val, index) => (
+            <Bar
+              key={index}
+              length={val}
+              selected={index === pieceOne || index === pieceTwo ? 'selected' : 'not-selected'}
+            />
+          ))
+          }
+        </ul>
+      </section>
+    </>
   )
 }

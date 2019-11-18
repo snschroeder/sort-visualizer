@@ -1,8 +1,19 @@
-.viz-display {
+.vizDisplay {
+  text-align: center;
+  margin: 0 auto;
+  width: 99vw;
+  height: 90vh;
+}
+
+.button-group {
   text-align: center;
 }
 
 button {
+  width:8%;
+  min-width: 150px;
+  max-width: 200px;
+  margin: 0 auto;
   background: black;
   color: greenyellow;
   border: solid 1px greenyellow;
@@ -15,9 +26,13 @@ button {
 button:hover,
 button:focus {
   font-weight: bold;
-  font-size: 16px;
   border: solid 2px greenyellow;
   cursor: pointer;
   transition: all 0.2s ease;
+}
 
+.display-nums {
+  padding: 0;
+  margin: 0;
+  margin-top: 10px;
 }

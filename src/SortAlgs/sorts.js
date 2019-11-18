@@ -66,13 +66,9 @@ const sorts = {
 
     if (left < len && arr[left] > arr[largest]) {
       largest = left;
-      // sort.push(largest);
-      // sort.push(left);
     }
     if (right < len && arr[right] > arr[largest]) {
       largest = right;
-      // sort.push(largest);
-      // sort.push(right);
     }
     if (largest !== i) {
       [arr[i], arr[largest]] = [arr[largest], arr[i]];

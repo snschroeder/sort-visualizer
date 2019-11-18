@@ -66,9 +66,13 @@ const sorts = {
 
     if (left < len && arr[left] > arr[largest]) {
       largest = left;
+      // sort.push(largest);
+      // sort.push(left);
     }
     if (right < len && arr[right] > arr[largest]) {
       largest = right;
+      // sort.push(largest);
+      // sort.push(right);
     }
     if (largest !== i) {
       [arr[i], arr[largest]] = [arr[largest], arr[i]];
@@ -96,3 +100,52 @@ const sorts = {
 }
 
 export default sorts;
+
+// const mergeSort = (arr, offset = 0, start = 0) => {
+  //   if (arr.length <= 1) { return arr; }
+
+  //   const mid = Math.floor(arr.length / 2)
+  //   const left = arr.slice(0, mid);
+  //   const right = arr.slice(mid);
+  //   mergeSort(left, mid, start);
+  //   mergeSort(right, mid, mid);
+  //   merge(left, right, arr, start, mid);
+
+  //   return arr;
+
+  // };
+
+  // const merge = (left, right, arr, start, offset) => {
+  //   let leftInd = 0;
+  //   let rightInd = 0;
+  //   let outputInd = 0;
+
+  //   while (leftInd < left.length && rightInd < right.length) {
+  //     if (left[leftInd] < right[rightInd]) {
+
+  //       sort.push(outputInd + start);
+  //       sort.push(leftInd + start);
+  //       arr[outputInd++] = left[leftInd++];
+  //     } else {
+
+  //       sort.push(outputInd + offset);
+  //       sort.push(rightInd + offset);
+  //       arr[outputInd++] = right[rightInd++];
+  //     }
+  //   }
+  //   while (leftInd < left.length) {
+
+  //     sort.push(outputInd + start);
+  //     sort.push(leftInd + start);
+  //     arr[outputInd++] = left[leftInd++]
+  //   }
+  //   while (rightInd < right.length) {
+
+  //     sort.push(outputInd + offset);
+  //     sort.push(rightInd + offset);
+  //     arr[outputInd++] = right[rightInd++]
+  //   }
+
+  //   console.log(sort);
+  //   return arr;
+  // };

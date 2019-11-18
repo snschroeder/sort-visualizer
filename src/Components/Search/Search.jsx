@@ -14,7 +14,7 @@ function Search() {
           <option value="comb-sort">comb sort</option>
           <option value="selection-sort">selection sort</option>
           <option value="insertion-sort">insertion sort</option>
-          <option value="merge-sort">merge sort</option>
+          <option value="heap-sort">heap sort</option>
         </select>
         {/* <button type="submit" className="submit-button">Sort!</button> */}
       </form>

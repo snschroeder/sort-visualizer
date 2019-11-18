@@ -33,8 +33,8 @@ export default function Visualizer(props) {
     let sorted = [];
     if (sortType === 'quick-sort') {
       sorted = quickSort([...randomizedArr]);
-    } else if (sortType === 'merge-sort') {
-      sorted = mergeSort([...randomizedArr]);
+    // } else if (sortType === 'merge-sort') {
+    //   sorted = mergeSort([...randomizedArr]);
     } else if (sortType === 'bubble-sort') {
       sorted = bubbleSort([...randomizedArr]);
     } else if (sortType === 'comb-sort') {
@@ -43,6 +43,8 @@ export default function Visualizer(props) {
       sorted = selectionSort([...randomizedArr]);
     } else if (sortType === 'insertion-sort') {
       sorted = insertionSort([...randomizedArr]);
+    } else if (sortType === 'heap-sort') {
+      sorted = heapSort([...randomizedArr]);
     }
     setSortedArr(sorted);
   }
@@ -142,56 +144,46 @@ export default function Visualizer(props) {
     return arr;
   }
 
-  const mergeSort = (arr, offset = 0, start = 0) => {
-    if (arr.length <= 1) { return arr; }
+  const heapify = (arr, len, i) => {
+    let largest = i;
+    let left = i * 2 + 1;
+    let right = left + 1;
 
-    const mid = Math.floor(arr.length / 2)
-    const left = arr.slice(0, mid);
-    const right = arr.slice(mid);
-    mergeSort(left, mid, start);
-    mergeSort(right, mid, mid);
-    merge(left, right, arr, start, mid);
-
-    return arr;
-
-  };
-
-  const merge = (left, right, arr, start, offset) => {
-    let leftInd = 0;
-    let rightInd = 0;
-    let outputInd = 0;
-
-    while (leftInd < left.length && rightInd < right.length) {
-      if (left[leftInd] < right[rightInd]) {
-
-        sort.push(outputInd + start);
-        sort.push(leftInd + start);
-        arr[outputInd++] = left[leftInd++];
-      } else {
-
-        sort.push(outputInd + offset);
-        sort.push(rightInd + offset);
-        arr[outputInd++] = right[rightInd++];
-      }
+    if (left < len && arr[left] > arr[largest]) {
+      largest = left;
     }
-    while (leftInd < left.length) {
-
-      sort.push(outputInd + start);
-      sort.push(leftInd + start);
-      arr[outputInd++] = left[leftInd++]
+    if (right < len && arr[right] > arr[largest]) {
+      largest = right;
     }
-    while (rightInd < right.length) {
-
-      sort.push(outputInd + offset);
-      sort.push(rightInd + offset);
-      arr[outputInd++] = right[rightInd++]
+    if (largest !== i) {
+      [arr[i], arr[largest]] = [arr[largest], arr[i]];
+      sort.push(i);
+      sort.push(largest);
+      heapify(arr, len, largest);
     }
-
-    console.log(sort);
     return arr;
   };
+
+  const heapSort = (arr) => {
+    let len = arr.length;
+    let i = Math.floor(len / 2 - 1);
+    let j = len - 1;
+
+    while (i >= 0) {
+      heapify(arr, len, i);
+      i--;
+    }
+    while (j >= 0) {
+      [arr[0], arr[j]] = [arr[j], arr[0]];
+      heapify(arr, j, 0);
+      j--;
+    }
+    return arr;
+  }
+
 
   const animate = () => {
+    console.log(sort);
     sortData();
     let clone = [...randomizedArr];
     for (let i = 0; i < sort.length; i += 2) {

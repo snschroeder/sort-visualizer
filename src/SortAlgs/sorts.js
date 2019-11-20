@@ -97,54 +97,80 @@ const sorts = {
 
 export default sorts;
 
-// const mergeSort = (arr, offset = 0, start = 0) => {
-  //   if (arr.length <= 1) { return arr; }
+const mergeSort = (arr, start, end) => {
+  if (start < end) {
 
-  //   const mid = Math.floor(arr.length / 2)
-  //   const left = arr.slice(0, mid);
-  //   const right = arr.slice(mid);
-  //   mergeSort(left, mid, start);
-  //   mergeSort(right, mid, mid);
-  //   merge(left, right, arr, start, mid);
+    const mid = Math.floor(start + end / 2)
+    const left = arr.slice(0, mid);
+    const right = arr.slice(mid);
+    mergeSort(arr, start, mid);
+    mergeSort(arr, mid + 1, end);
+    merge(arr, start, mid, end);
+  }
 
-  //   return arr;
+  return arr;
 
-  // };
+};
 
-  // const merge = (left, right, arr, start, offset) => {
-  //   let leftInd = 0;
-  //   let rightInd = 0;
-  //   let outputInd = 0;
+const merge = (arr, start, mid, end) => {
+  let p = start;
+  let q = mid + 1;
 
-  //   while (leftInd < left.length && rightInd < right.length) {
-  //     if (left[leftInd] < right[rightInd]) {
+  let tempArr = [];
+  let k = 0;
 
-  //       sort.push(outputInd + start);
-  //       sort.push(leftInd + start);
-  //       arr[outputInd++] = left[leftInd++];
-  //     } else {
+  for (let i = start; i <= end; i++) {
+    if (p > mid) {
+      tempArr[k++] = arr[q++];
+    } else if ( q > end) {
+      tempArr[k++] = arr[p++];
+    } else if (arr[p] < arr[q]) {
+      tempArr[k++] = arr[p++];
+    } else {
+      tempArr[k++] = arr[q++];
+    }
+    for (let i = 0; i < k; i++) {
+      sort.push(i);
+      sort.push(start);
+      arr[start++] = tempArr[i];
+    }
+  }
 
-  //       sort.push(outputInd + offset);
-  //       sort.push(rightInd + offset);
-  //       arr[outputInd++] = right[rightInd++];
-  //     }
-  //   }
-  //   while (leftInd < left.length) {
 
-  //     sort.push(outputInd + start);
-  //     sort.push(leftInd + start);
-  //     arr[outputInd++] = left[leftInd++]
-  //   }
-  //   while (rightInd < right.length) {
 
-  //     sort.push(outputInd + offset);
-  //     sort.push(rightInd + offset);
-  //     arr[outputInd++] = right[rightInd++]
-  //   }
+  let leftInd = 0;
+  let rightInd = 0;
+  let outputInd = 0;
 
-  //   console.log(sort);
-  //   return arr;
-  // };
+  while (leftInd < left.length && rightInd < right.length) {
+    if (left[leftInd] < right[rightInd]) {
+
+      sort.push(outputInd + start);
+      sort.push(leftInd + start);
+      arr[outputInd++] = left[leftInd++];
+    } else {
+
+      sort.push(outputInd + offset);
+      sort.push(rightInd + offset);
+      arr[outputInd++] = right[rightInd++];
+    }
+  }
+  while (leftInd < left.length) {
+
+    sort.push(outputInd + start);
+    sort.push(leftInd + start);
+    arr[outputInd++] = left[leftInd++]
+  }
+  while (rightInd < right.length) {
+
+    sort.push(outputInd + offset);
+    sort.push(rightInd + offset);
+    arr[outputInd++] = right[rightInd++]
+  }
+
+  console.log(sort);
+  return arr;
+};
 
     // const heapify = (arr, len, i) => {
   //   let largest = i;

@@ -38,23 +38,19 @@ export default function Visualizer(props) {
     if (height <= 900) {
       h = 1;
     }
-
     if (width <= 500) {
       w = .6;
     }
-
     if (width > 500 && width <= 1000) {
       w = 1;
     }
-
     if (width > 1000 && width <= 1800) {
       w = 2.2;
     }
-
     if (width > 1800) {
       w = 3.5;
     }
-    return {h, w}
+    return { h, w }
   }
 
   useEffect(() => {
@@ -64,7 +60,7 @@ export default function Visualizer(props) {
 
     const h = dims.h;
     const w = dims.w;
-    setDimensions({hSize: h, wSize: w});
+    setDimensions({ hSize: h, wSize: w });
     console.log(dimensions);
   }, [])
 
@@ -116,6 +112,8 @@ export default function Visualizer(props) {
       sorted = selectionSort([...randomizedArr]);
     } else if (sortType === 'insertion-sort') {
       sorted = insertionSort([...randomizedArr]);
+    } else if (sortType === 'merge-sort') {
+      sorted = mergeSort([...randomizedArr]);
     }
     setSortedArr(sorted);
   }
@@ -215,9 +213,49 @@ export default function Visualizer(props) {
     return arr;
   }
 
+  const mergeSort = (arr, start = 0, end = arr.length - 1) => {
+    if (start >= end) { return arr; }
+
+    const mid = Math.floor((start + end) / 2)
+    // const left = arr.slice(0, mid);
+    // const right = arr.slice(mid);
+    mergeSort(arr, start, mid);
+    mergeSort(arr, mid + 1, end);
+    merge(arr, start, mid, end);
+    return arr;
+  };
+
+  const merge = (arr, start, mid, end) => {
+    let p = start;
+    let q = mid + 1;
+
+    let tempArr = [];
+    let k = 0;
+
+    for (let i = start; i <= end; i++) {
+      if (p > mid) {
+        tempArr[k++] = arr[q++];
+      } else if (q > end) {
+        tempArr[k++] = arr[p++];
+      } else if (arr[p] < arr[q]) {
+        tempArr[k++] = arr[p++];
+      } else {
+        tempArr[k++] = arr[q++];
+      }
+    }
+    for (let i = 0; i < k; i++) {
+      sort.push(i);
+      sort.push(start);
+      arr[start++] = tempArr[i];
+    }
+    console.log(arr);
+    return arr;
+  };
+
   const animate = () => {
     sortData();
     let pattern = sort.length === 0 ? [...sortOrder] : [...sort];
+    console.log(pattern)
     let clone = [...randomizedArr];
     for (let i = 0; i < pattern.length; i += 2) {
       setTimeout(() => {
@@ -240,7 +278,7 @@ export default function Visualizer(props) {
   return (
     <>
       <section className="button-group">
-        <button type="button" className="randomize-button" onClick={() => genRandomizedArr(200, 500)}>Generate new array</button>
+        <button type="button" className="randomize-button" onClick={() => genRandomizedArr(20, 500)}>Generate new array</button>
         <button type="button" className="animate" onClick={() => animate()}>Animate!</button>
       </section>
       <section className="vizDisplay" id="viz">

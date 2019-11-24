@@ -61,7 +61,6 @@ export default function Visualizer(props) {
     const h = dims.h;
     const w = dims.w;
     setDimensions({ hSize: h, wSize: w });
-    console.log(dimensions);
   }, [])
 
   useEffect(() => {
@@ -79,7 +78,6 @@ export default function Visualizer(props) {
         hSize: h,
         wSize: w,
       })
-      console.log(dimensions);
     }, 1000)
 
     window.addEventListener('resize', debouncedHandleResize)
@@ -277,7 +275,7 @@ export default function Visualizer(props) {
         setRandomizedArr([...clone]);
       }, 10 + (10 * i))
     }
-  }
+  };
 
   const animateReverse = () => {
     let pattern = sort.length === 0 ? [...sortOrder] : [...sort];

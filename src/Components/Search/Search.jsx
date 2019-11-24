@@ -10,7 +10,7 @@ function Search() {
       <form className="sort-form">
         <select className="search-select" onChange={(e) => setSortType(e.target.value)}>
           <option value="quick-sort">quick sort</option>
-          <option value="merge-sort">merge sort</option>
+          {/* <option value="merge-sort">merge sort</option> */}
           <option value="bubble-sort">bubble sort</option>
           <option value="comb-sort">comb sort</option>
           <option value="selection-sort">selection sort</option>
